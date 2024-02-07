@@ -282,7 +282,7 @@ module.exports = {
       res.status(200).json(attendance);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Failed to add new attendance" });
+      res.status(500).json({ message: "Failed to get attendance" });
     }
   },
   editAttendance: async (req, res) => {
