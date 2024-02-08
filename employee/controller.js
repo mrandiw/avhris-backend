@@ -71,6 +71,17 @@ module.exports = {
           message: `${username} has been used, please select another username`,
         });
       }
+
+      function parseAndReplaceEmptyShift(data) {
+        const parsedData = JSON.parse(data);
+        Object.keys(parsedData).forEach((day) => {
+          if (parsedData[day].shift === "") {
+            parsedData[day].shift = null;
+          }
+        });
+        return parsedData;
+      }
+
       const company_id =
         role === "Super Admin " || role === "Group Admin"
           ? req.query.company
@@ -99,7 +110,7 @@ module.exports = {
         emp_location,
         emp_tanggungan,
         emp_hr,
-        emp_attadance: JSON.parse(attadance),
+        emp_attadance: parseAndReplaceEmptyShift(attadance),
       });
       await newEmployment.save().then(async (emp) => {
         if (parsingtoJson?.emp_salary) {
@@ -126,7 +137,7 @@ module.exports = {
             company_id: findEmployment?.company_id,
             emp_id: findEmployment?._id,
             insert_databy: "Has_Attendance",
-            shift_id: employmentShiftToday?.shift?._id || "",
+            shift_id: employmentShiftToday?.shift?._id || null,
             workhours_in: employmentShiftToday?.shift?.shift_clockin,
             workhours_out: employmentShiftToday?.shift?.shift_clockout,
             clock_in: "-",
