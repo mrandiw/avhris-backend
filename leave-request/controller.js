@@ -113,12 +113,15 @@ module.exports = {
         empleave_end_hours,
       } = req.body;
       const company_id = req.query.company_id;
+      const token = req.headers.authorization.split(" ")[1];
+      const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+      const { role } = decodedToken;
       if (
         role === "Super Admin" ||
         role === "App Admin" ||
         role === "Group Admin"
       ) {
-        const assignLeave = await AssignLeave.updateOne(
+        await AssignLeave.updateOne(
           { _id: req.params.id },
           {
             $set: {
