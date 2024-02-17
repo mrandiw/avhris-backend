@@ -163,12 +163,12 @@ module.exports = {
       });
       return res.json({ message: "Successfully created a new Employment" });
     } catch (error) {
-      console.log(error);
       if (req?.file) {
         fs.unlinkSync(`public/uploads/${req.file.filename}`);
       }
       return res.status(500).json({
         message: "Failed to Add new Employment | Internal Server Error",
+        error,
       });
     }
   },
