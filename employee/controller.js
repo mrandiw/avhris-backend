@@ -22,7 +22,7 @@ const { dateToday, getDayName } = require("../attedance/controller");
 module.exports = {
   addEmployement: async (req, res) => {
     try {
-      const { role } = req.admin;
+      const { role, email: adminEmail } = req.admin;
       const {
         username,
         password,
@@ -44,6 +44,7 @@ module.exports = {
         emp_ssuperior,
         emp_hr,
         emp_location,
+        emp_work_location,
         attadance,
         basic_salary,
       } = req.body;
@@ -51,16 +52,16 @@ module.exports = {
       const checkDuplicateEmail = await Employment.findOne({ email });
       const checkDuplicateNIKKtp = await Employment.findOne({ emp_nikktp });
       const checkDuplicateUsername = await Employment.findOne({ username });
-      // if (!email) {
-      //   return res.status(422).json({
-      //     message: `Email is Required`,
-      //   });
-      // }
-      // if (checkDuplicateEmail) {
-      //   return res.status(422).json({
-      //     message: `${email} has been used, please select another email`,
-      //   });
-      // }
+      if (!email) {
+        return res.status(422).json({
+          message: `Email is Required`,
+        });
+      }
+      if (checkDuplicateEmail) {
+        return res.status(422).json({
+          message: `${email} has been used, please select another email`,
+        });
+      }
       // if (checkDuplicateNIKKtp) {
       //   return res.status(422).json({
       //     message: `NIK KTP should not be duplicate, please enter another NIK KTP`,
@@ -82,10 +83,15 @@ module.exports = {
         return parsedData;
       }
 
-      const company_id =
-        role === "Super Admin " || role === "Group Admin"
-          ? req.query.company
-          : req.admin.company_id;
+      let company_id = "";
+      if (emp_work_location && adminEmail === "admin@mtp") {
+        company_id = emp_work_location;
+      } else if (role === "Super Admin " || role === "Group Admin") {
+        company_id = req.query.company;
+      } else {
+        company_id = req.admin.company_id;
+      }
+
       const newEmployment = new Employment({
         company_id,
         emp_profile: req.file ? req.file?.filename : null,
@@ -166,6 +172,7 @@ module.exports = {
       if (req?.file) {
         fs.unlinkSync(`public/uploads/${req.file.filename}`);
       }
+      console.log(error);
       return res.status(500).json({
         message: "Failed to Add new Employment | Internal Server Error",
         error,
