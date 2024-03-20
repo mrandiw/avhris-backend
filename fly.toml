@@ -4,7 +4,7 @@
 #
 
 app = 'avhris-backend'
-primary_region = 'ams'
+primary_region = 'sin'
 
 [build]
 
@@ -17,6 +17,10 @@ primary_region = 'ams'
   processes = ['app']
 
 [[vm]]
-  memory = '1gb'
+  memory = '512mb'
   cpu_kind = 'shared'
   cpus = 1
+
+[mounts]
+  source="storage"
+  destination="/app/public"
