@@ -29,7 +29,6 @@ RUN yarn install --frozen-lockfile
 # Copy application code
 COPY --link . .
 
-
 # Final stage for app image
 FROM base
 
