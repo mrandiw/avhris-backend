@@ -1,2 +1,3 @@
-0 0 16 ? * SUN * SERVICE_MODE=1 /usr/lib/x86_64-linux-gnu/e2fsprogs/e2scrub_all_cron
-0 0 0/3 1/1 * ? * SERVICE_MODE=1 /sbin/e2scrub_all -A -r
+* 0/5 * ? * * * node supercronic/lima_menit.js > log.txt
+* * 16 ? * * * node supercronic/tengah_malam.js > log.txt
+* * 19 ? * * * node supercronic/tiga_pagi.js > log.txt

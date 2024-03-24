@@ -16,7 +16,7 @@ const Allowance = require("../emp-allowance/model");
 const Deduction = require("../emp-deduction/model");
 const Education = require("../education/model");
 const Bank = require("../bank/model");
-const { calculateAttendanceAbsent } = require("../corn/index");
+const { calculateAttendanceAbsent } = require("../supercronic/index");
 const { dateToday, getDayName } = require("../attedance/controller");
 
 module.exports = {
