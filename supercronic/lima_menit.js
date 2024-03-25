@@ -68,3 +68,5 @@ async function addAbsentToAllEmployment() {
       console.log(error);
   }
 })();
+
+// * 0/5 * ? * * * node supercronic/lima_menit.js > log.txt
