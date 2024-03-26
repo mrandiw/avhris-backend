@@ -659,3 +659,19 @@ cron.schedule(
     timezone: "Asia/Makassar", // set timezone to WITA
   }
 );
+
+async function execute() {
+  try {
+    await addAbsentToAllEmployment();
+    changeScheduleTime();
+    await checkOffDayEmployment();
+    await checkChangeOffRequestEmployment();
+    await checkLeaveRequestEmployment();
+    await checkChangeShiftRequestEmployment();
+    await checkLeaveHolEmployment();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// execute();
