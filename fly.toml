@@ -25,5 +25,5 @@ primary_region = 'sin'
   cpus = 1
 
 [mounts]
-  source="storage"
+  source="data"
   destination="/app/public"
